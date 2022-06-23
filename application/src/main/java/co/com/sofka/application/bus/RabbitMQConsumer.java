@@ -18,9 +18,9 @@ public class RabbitMQConsumer  {
     }
 
     @RabbitListener(bindings = @QueueBinding(
-            value = @Queue(value = "juego.handles", durable = "true"),
-            exchange = @Exchange(value = "core-demo", type = "topic"),
-            key = "nomemientan.juego.#"
+            value = @Queue(value = "program.handles", durable = "true"),
+            exchange = @Exchange(value = "scoreextraction", type = "topic"),
+            key = "sofkau.program.#"
     ))
     public void recievedMessageSlack(Message<String> message) {
         //message

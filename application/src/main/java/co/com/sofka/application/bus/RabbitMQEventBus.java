@@ -16,7 +16,7 @@ import java.net.URI;
 
 @Service
 public class RabbitMQEventBus implements EventBus {
-    private static final String EXCHANGE = "core-demo";
+    private static final String EXCHANGE = "scoreextraction";
 
     private final RabbitTemplate rabbitTemplate;
     private final GsonEventSerializer serializer;
