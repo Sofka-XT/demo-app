@@ -1,7 +1,6 @@
 package co.com.sofka.application.repo;
 
-import co.com.sofka.application.repo.DocumentStoredEvent;
-import co.com.sofka.application.repo.StoreEventRepository;
+
 import co.com.sofka.generic.DomainEvent;
 import co.com.sofka.generic.EventStoreRepository;
 import co.com.sofka.generic.StoredEvent;
@@ -31,6 +30,7 @@ public class MongoEventStoreRepository implements EventStoreRepository {
     @Override
     public void saveEvent(String aggregateName, String aggregateRootId, StoredEvent storedEvent) {
         var document = new DocumentStoredEvent();
+        document.setAggregateRootId(aggregateRootId);
         document.setEventBody(storedEvent.getEventBody());
         document.setOccurredOn(storedEvent.getOccurredOn());
         document.setTypeName(storedEvent.getTypeName());

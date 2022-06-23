@@ -12,6 +12,9 @@ public class DocumentStoredEvent extends StoredEvent {
     @Id
     private String id;
 
+    private String aggregateRootId;
+
+
     public DocumentStoredEvent(){ }
 
     public DocumentStoredEvent(String typeName, Date occurredOn, String eventBody) {
@@ -24,5 +27,13 @@ public class DocumentStoredEvent extends StoredEvent {
 
     public void setId(String id) {
         this.id = id;
+    }
+
+    public String getAggregateRootId() {
+        return aggregateRootId;
+    }
+
+    public void setAggregateRootId(String aggregateRootId) {
+        this.aggregateRootId = aggregateRootId;
     }
 }

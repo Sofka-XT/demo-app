@@ -1,0 +1,13 @@
+server:
+  port: 8080
+  origin: ${ORIGIN:*}
+spring:
+  main:
+    banner-mode: off
+  output:
+    ansi:
+      enabled: ALWAYS
+  application:
+    name: demo-core
+  bus:
+    uri: ${BUS_URI:amqp://guest:guest@localhost:5672}
