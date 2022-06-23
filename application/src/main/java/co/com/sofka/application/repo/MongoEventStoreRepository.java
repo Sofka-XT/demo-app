@@ -35,6 +35,6 @@ public class MongoEventStoreRepository implements EventStoreRepository {
         var eventStored = new DocumentEventStored();
         eventStored.setAggregateRootId(aggregateRootId);
         eventStored.setStoredEvent(storedEvent);
-        mongoTemplate.save(eventStored, aggregateName);
+        mongoTemplate.save(eventStored, aggregateName).block();
     }
 }
