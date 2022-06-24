@@ -22,7 +22,7 @@ public class RabbitMQConsumer  {
             exchange = @Exchange(value = "scoreextraction", type = "topic"),
             key = "sofkau.program.#"
     ))
-    public void recievedMessageSlack(Message<String> message) {
+    public void recievedMessage(Message<String> message) {
         //message
     }
 

@@ -2,27 +2,28 @@ package co.com.sofka.application;
 
 import co.com.sofka.domain.program.command.AddCourseCommand;
 import co.com.sofka.domain.program.command.CreateProgramCommand;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationEventPublisher;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
+@RequestMapping(value = "api/", produces = MediaType.APPLICATION_JSON_VALUE)
 public class CommandController {
-
-    private final ApplicationEventPublisher publisher;
-
-    public CommandController(ApplicationEventPublisher publisher) {
-        this.publisher = publisher;
-    }
+    @Autowired
+    private  ApplicationEventPublisher publisher;
 
 
     @PostMapping("/createProgram")
+    @ResponseStatus(HttpStatus.OK)
     public void createProgram(@RequestBody CreateProgramCommand command) {
         publisher.publishEvent(command);
     }
 
+
     @PostMapping("/addCourse")
+    @ResponseStatus(HttpStatus.OK)
     public void createProgram(@RequestBody AddCourseCommand command) {
         publisher.publishEvent(command);
     }

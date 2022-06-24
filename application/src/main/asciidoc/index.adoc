@@ -1,0 +1,9 @@
+= EXAMPLE DE DOC
+Raul A. Alzate <raul.alzate@sofka.com.co>;
+:doctype: book
+:icons: font
+:source-highlighter: highlightjs
+:toc: left
+:sectnums:
+
+

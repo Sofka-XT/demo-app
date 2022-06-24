@@ -5,18 +5,19 @@ import co.com.sofka.generic.DomainEvent;
 import co.com.sofka.generic.EventStoreRepository;
 import co.com.sofka.generic.StoredEvent;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.mongodb.core.ReactiveMongoTemplate;
+import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Component
 public class MongoEventStoreRepository implements EventStoreRepository {
 
     @Autowired
-    private ReactiveMongoTemplate mongoTemplate;
+    private MongoTemplate mongoTemplate;
 
     @Autowired
     private StoredEvent.EventSerializer eventSerializer;
@@ -25,9 +26,8 @@ public class MongoEventStoreRepository implements EventStoreRepository {
     public List<DomainEvent> getEventsBy(String aggregateName, String aggregateRootId) {
         var query = new Query(Criteria.where("aggregateRootId").is(aggregateRootId));
         return mongoTemplate.find(query, DocumentEventStored.class, aggregateName)
-                .map((documentEventStored -> documentEventStored.getStoredEvent().deserializeEvent(eventSerializer)))
-                .collectList()
-                .block();
+                .stream().map((documentEventStored -> documentEventStored.getStoredEvent().deserializeEvent(eventSerializer)))
+                .collect(Collectors.toList());
     }
 
     @Override
@@ -35,6 +35,6 @@ public class MongoEventStoreRepository implements EventStoreRepository {
         var eventStored = new DocumentEventStored();
         eventStored.setAggregateRootId(aggregateRootId);
         eventStored.setStoredEvent(storedEvent);
-        mongoTemplate.save(eventStored, aggregateName).block();
+        mongoTemplate.save(eventStored, aggregateName);
     }
 }
