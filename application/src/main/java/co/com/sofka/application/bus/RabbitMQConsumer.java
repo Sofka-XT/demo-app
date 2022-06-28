@@ -1,20 +1,27 @@
 package co.com.sofka.application.bus;
 
+import co.com.sofka.application.repo.GsonEventSerializer;
+import co.com.sofka.domain.program.event.ProgramCreated;
+import co.com.sofka.generic.DomainEvent;
 import org.springframework.amqp.rabbit.annotation.Exchange;
 import org.springframework.amqp.rabbit.annotation.Queue;
 import org.springframework.amqp.rabbit.annotation.QueueBinding;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.messaging.Message;
 import org.springframework.stereotype.Component;
 
 
 @Component
 public class RabbitMQConsumer  {
+    private final GsonEventSerializer serializer;
+    @Autowired
+    private ApplicationEventPublisher publisher;
 
     @Autowired
-    public RabbitMQConsumer() {
-
+    public RabbitMQConsumer(GsonEventSerializer serializer) {
+        this.serializer = serializer;
     }
 
     @RabbitListener(bindings = @QueueBinding(
@@ -23,8 +30,17 @@ public class RabbitMQConsumer  {
             key = "sofkau.program.#"
     ))
     public void recievedMessage(Message<String> message) {
-        //message
+        var notification = Notification.from(message.getPayload());
+        try {
+            var event = serializer.deserialize(notification.getBody(), Class.forName(notification.getType()));
+            publisher.publishEvent(event);
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+
     }
+
+
 
 
 

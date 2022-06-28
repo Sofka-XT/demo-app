@@ -42,6 +42,7 @@ public abstract class CommandBaseIntegrationTest {
 
     @SpyBean
     private EventBus bus;
+
     @Captor
     private ArgumentCaptor<DomainEvent> eventArgumentCaptor;
 

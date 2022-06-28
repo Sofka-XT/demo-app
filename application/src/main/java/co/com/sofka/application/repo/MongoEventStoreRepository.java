@@ -5,6 +5,7 @@ import co.com.sofka.generic.DomainEvent;
 import co.com.sofka.generic.EventStoreRepository;
 import co.com.sofka.generic.StoredEvent;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
@@ -17,6 +18,7 @@ import java.util.stream.Collectors;
 public class MongoEventStoreRepository implements EventStoreRepository {
 
     @Autowired
+    @Qualifier("commands")
     private MongoTemplate mongoTemplate;
 
     @Autowired

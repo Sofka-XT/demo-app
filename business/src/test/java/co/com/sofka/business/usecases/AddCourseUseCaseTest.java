@@ -36,7 +36,9 @@ import static org.mockito.Mockito.when;
         command.setName("Programación Orientada a Objetos");
         command.setProgramId("COL-C2-2022");
         command.setCourseId("FFF");
-        when(repository.getEventsBy("program","COL-C2-2022")).thenReturn(history());
+
+        when(repository.getEventsBy("program","COL-C2-2022"));
+
         var result = useCase.apply(command);
         var event = (CourseAssigned)result.get(0);
 

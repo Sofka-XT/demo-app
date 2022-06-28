@@ -11,29 +11,28 @@ import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
-import java.net.URI;
+
+import static co.com.sofka.application.ApplicationConfig.EXCHANGE;
 
 
 @Service
 public class RabbitMQEventBus implements EventBus {
-    private static final String EXCHANGE = "scoreextraction";
 
     private final RabbitTemplate rabbitTemplate;
     private final GsonEventSerializer serializer;
-    private final RabbitAdmin rabbitAdmin;
 
-
-    public RabbitMQEventBus(@Value("${spring.bus.uri}") String uri, GsonEventSerializer serializer) {
-        this.rabbitTemplate = new RabbitTemplate(new CachingConnectionFactory(URI.create(uri)));
+    public RabbitMQEventBus(RabbitTemplate rabbitTemplate,  GsonEventSerializer serializer) {
         this.serializer = serializer;
-        this.rabbitAdmin = new RabbitAdmin(this.rabbitTemplate);
+        this.rabbitTemplate = rabbitTemplate;
     }
 
     @Override
     public void publish(DomainEvent event) {
-        var notificationSerialization =serializer.serialize(event);
-        rabbitAdmin.declareExchange(new TopicExchange(EXCHANGE));
-        rabbitTemplate.convertAndSend(EXCHANGE, event.getType(), notificationSerialization.getBytes());
+        var notification = new Notification(
+                event.getClass().getTypeName(),
+                serializer.serialize(event)
+        );
+        rabbitTemplate.convertAndSend(EXCHANGE, event.getType(), notification.serialize().getBytes());
     }
 
     @Override

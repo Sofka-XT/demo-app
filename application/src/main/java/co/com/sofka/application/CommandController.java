@@ -24,7 +24,7 @@ public class CommandController {
 
     @PostMapping("/addCourse")
     @ResponseStatus(HttpStatus.OK)
-    public void createProgram(@RequestBody AddCourseCommand command) {
+    public void createProgram(AddCourseCommand command) {
         publisher.publishEvent(command);
     }
 }
