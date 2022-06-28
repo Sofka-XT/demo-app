@@ -4,7 +4,7 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <parent>
         <artifactId>scoreextraction</artifactId>
-        <groupId>co.com.sofka</groupId>
+        <groupId>org.example</groupId>
         <version>1.0-SNAPSHOT</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
@@ -118,44 +118,17 @@
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
-
-            </plugin>
-            <plugin>
-                <groupId>org.asciidoctor</groupId>
-                <artifactId>asciidoctor-maven-plugin</artifactId>
-                <version>1.5.3</version>
+                <version>${springboot.version}</version>
+                <configuration>
+                    <mainClass>org.example.application.Application</mainClass>
+                </configuration>
                 <executions>
                     <execution>
-                        <id>generate-docs</id>
-                        <phase>prepare-package</phase>
                         <goals>
-                            <goal>process-asciidoc</goal>
+                            <goal>repackage</goal>
                         </goals>
-                        <configuration>
-                            <backend>html</backend>
-                            <doctype>book</doctype>
-                        </configuration>
                     </execution>
                 </executions>
-                <dependencies>
-                    <dependency>
-                        <groupId>org.springframework.restdocs</groupId>
-                        <artifactId>spring-restdocs-asciidoctor</artifactId>
-                        <version>1.2.6.RELEASE</version>
-                    </dependency>
-                </dependencies>
-            </plugin>
-            <plugin>
-                <groupId>com.heroku.sdk</groupId>
-                <artifactId>heroku-maven-plugin</artifactId>
-                <version>3.0.3</version>
-                <configuration>
-                    <appName>scoreextractionapp</appName>
-                    <processTypes>
-                        <web>java $JAVA_OPTS -Dserver.port=$PORT -jar target/application-1.0-SNAPSHOT.jar</web>
-                    </processTypes>
-                </configuration>
-
             </plugin>
         </plugins>
 

@@ -2,7 +2,6 @@ server:
   port: 8080
   origin: ${ORIGIN:*}
 
-
 spring:
   main:
     banner-mode: off
@@ -11,12 +10,11 @@ spring:
       enabled: ALWAYS
   application:
     name: scoreextraction-core
-  bus:
-    uri: ${BUS_URI:amqp://bcvjbwze:WXSPv9OcvH4QLclmEwsBlb6GpH0h7ShF@moose.rmq.cloudamqp.com/bcvjbwze}
-  commands:
-    uri: ${MONGO_URI:mongodb+srv://admin:Colombia2020.@cluster0.2pbel.mongodb.net/events?retryWrites=true&w=majority}
-  queries:
-    uri: ${MONGO_URI:mongodb+srv://admin:Colombia2020.@cluster0.2pbel.mongodb.net/views?retryWrites=true&w=majority}
+  rabbitmq:
+    addresses: ${URI_BUS:amqps://bcvjbwze:WXSPv9OcvH4QLclmEwsBlb6GpH0h7ShF@moose.rmq.cloudamqp.com/bcvjbwze}
+  data:
+    mongodb:
+      uri: ${URI_DB:mongodb+srv://admin:Colombia2020.@cluster0.2pbel.mongodb.net/events}
 logging:
   pattern:
     console: "%clr(%d{yyyy-MM-dd HH:mm:ss.SSS}){faint} %clr(${LOG_LEVEL_PATTERN:-%5p}) %clr(${PID:- }){magenta} %clr(---){faint} %clr([%15.15t]){faint} %clr(%-40.40logger{39}){cyan} %clr(:){faint} %m%n${LOG_EXCEPTION_CONVERSION_WORD:-%wEx}"
