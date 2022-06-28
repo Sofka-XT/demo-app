@@ -145,6 +145,18 @@
                     </dependency>
                 </dependencies>
             </plugin>
+            <plugin>
+                <groupId>com.heroku.sdk</groupId>
+                <artifactId>heroku-maven-plugin</artifactId>
+                <version>3.0.3</version>
+                <configuration>
+                    <appName>scoreextractionapp</appName>
+                    <processTypes>
+                        <web>java $JAVA_OPTS -Dserver.port=$PORT -jar target/application-1.0-SNAPSHOT.jar</web>
+                    </processTypes>
+                </configuration>
+
+            </plugin>
         </plugins>
 
     </build>
